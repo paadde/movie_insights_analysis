@@ -602,9 +602,6 @@ The analysis reveals interesting trends regarding the relationship between movie
 
 ![image6](files/image6.png)
 
+## Recommendation
 
-
-
-
-
-
+Based on analysis, key recommendations for the film industry include prioritizing popular genres like Adventure, Animation, and Science Fiction for higher user engagement. Strategic budget allocation is crucial, with visually immersive genres justifying higher investments while others focus on storytelling with modest budgets. Developing a recommendation model based on user preferences ensures high-quality suggestions. Timing movie releases during blockbuster seasons like June and May, as well as holiday periods in November and December, can maximize revenue.
