@@ -414,30 +414,6 @@ Genre preference of userid no. 51
 With the available data on each user's genre preferences, I've conducted a query to identify the top-rated movie titles suitable for recommendation to a particular user. To ensure high-quality recommendations, I've filtered the movie titles to include only those with an average rating of at least 4.0.
 
 ```sql
-WITH genres_cte AS (
-    SELECT
-        tmdbid,
-        title,
-        jsonb_array_elements(genres::jsonb)->>'name' AS genre
-    FROM tmdb_movie_dataset
-)
-SELECT
-    rate.userid,
-    genres_cte.genre,
-    AVG(rate.rating) AS avg_rate,
-    AVG(popularity) AS avg_popularity
-FROM tmdb_movie_dataset AS data
-JOIN tmdb_movie_ratings AS rate
-    ON rate.ratingid = data.ratingid
-JOIN genres_cte
-    ON data.tmdbid = genres_cte.tmdbid
-GROUP BY rate.userid, genres_cte.genre 
-    HAVING rate.userid = 2
-ORDER BY 1 ASC, 3 DESC
-LIMIT 200
-
-
--- lists of movie titles suggestion per user based on their genre preference
 WITH movie_recommendation AS (
     WITH user_preference_cte AS (
         WITH genres_cte AS (
@@ -593,3 +569,42 @@ Top grossing month
              1 | 54429995.720812182741
 (12 rows)
 ```
+
+
+## Insights
+
+1. Explore whether specific genres lead to higher user engagement.
+
+Adventure, Animation, and Science Fiction stand out as the most popular movie genres, reflecting their ability to evoke excitement, imagination, and futuristic themes. Despite their lower average popularity, War films attract a dedicated audience who values their depth and historical significance, leading to higher ratings. However, Romance and Comedy genres, despite their widespread appeal, lag behind in both popularity and rating, indicating a possible need for innovation. Genres like Music, TV Movie, and Documentary show niche interests or limited mainstream appeal, with lower popularity scores.
+
+![image1](files/image1.png)
+
+2. Develop insights into the optimal budget range for different genres.
+ 
+ For highly visual genres like Animation, Adventure, and Family, investing in moderately high budgets seems justified to match their high revenue potential. Thriller, Mystery, and War genres demonstrate potential for high profitability with comparatively modest budgets, focusing more on storytelling than elaborate visuals. Romance and Comedy genres, while popular, can still yield profits with moderate to low budgets. Horror films show high profitability with minimal investments, leveraging atmosphere and suspense. Music and Documentary genres, with lower revenues, can still be profitable with targeted marketing despite their modest budgets. In summary, the optimal budget range varies across genres, from high investments in visual spectacles to modest budgets emphasizing storytelling.
+
+ ![image2](files/image2.png)
+
+
+3. Develop a model that suggests movies to users based on their historical ratings and preferences for specific genres.
+
+In developing a model for suggesting movies to users based on their historical ratings and genre preferences, I've undertaken a systematic approach. First, I analyzed each user's genre preferences by examining their rated movies, employing Common Table Expressions (CTEs) to facilitate multiple JOIN operations, particularly extracting values from a JSON-type column labeled 'genres'. Next, leveraging this data, I crafted a query to pinpoint top-rated movie titles tailored to each user. To maintain high-quality recommendations, I implemented a filtering mechanism to include only movies with an average rating of at least 4.0, ensuring that suggested titles meet a superior standard of quality aligned with user preferences. This method combines both analytical insights into user behavior and rigorous quality control to provide personalized and satisfying movie recommendations.
+
+![image3](files/image3.png)
+
+![image4](files/image4.png)
+
+4. Analyze the relationship between movie release dates and revenue.
+
+The analysis reveals interesting trends regarding the relationship between movie release dates and revenue. Despite September having the highest number of movie releases, it's not among the top months for grossing revenue. Instead, June and May emerge as the top-grossing months, suggesting that summer releases tend to perform exceptionally well financially. This trend aligns with the traditional blockbuster season, where studios often release high-budget and highly anticipated films to capitalize on summer vacations and increased leisure time. Additionally, November and December also stand out as lucrative months, indicating the impact of holiday releases and end-of-year moviegoing trends. 
+
+![image5](files/image5.png)
+
+![image6](files/image6.png)
+
+
+
+
+
+
+
